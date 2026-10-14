@@ -2,13 +2,13 @@ name: Build TWRP for TECNO KN4
 on:
   workflow_dispatch:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
 jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Free space and deps
+      - name: Free space and install dependencies
         run: |
           sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android /opt/hostedtoolcache/CodeQL /usr/local/share/boost /opt/pipx
           docker rmi $(docker images -q) -f || true
@@ -20,20 +20,27 @@ jobs:
           ln -s /mnt/twrp ~/twrp && cd ~/twrp
           repo init --depth=1 -u https://github.com/TWRP-Test/platform_manifest_twrp_aosp.git -b twrp-16.0
           repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags --optimized-fetch --prune
-      - name: Build
+      - name: Compile TWRP
         run: |
           mkdir -p ~/twrp/device/tecno
           cp -a $GITHUB_WORKSPACE/device_tree/device/tecno/KN4 ~/twrp/device/tecno/KN4
           cd ~/twrp && source build/envsetup.sh
           export ALLOW_MISSING_DEPENDENCIES=true
+          export BUILD_BROKEN_MISSING_REQUIRED_MODULES=true
           lunch twrp_KN4-bp2a-eng
           mka vendorbootimage -j$(nproc --all)
-      - name: Package ramdisk
+      - name: Package Recovery Ramdisk
         run: |
           cd ~/twrp/out/target/product/KN4
           mkdir -p $GITHUB_WORKSPACE/artifact
-          python3 $GITHUB_WORKSPACE/tools/unpack_bootimg.py --boot_img vendor_boot.img --out twrp_unpacked
-          cp -L twrp_unpacked/vendor-ramdisk-by-name/ramdisk_recovery $GITHUB_WORKSPACE/artifact/ramdisk_recovery
+          if [ -f ramdisk-recovery.img ]; then
+            cp -L ramdisk-recovery.img $GITHUB_WORKSPACE/artifact/ramdisk_recovery
+          elif [ -f ramdisk-recovery.cpio ]; then
+            lz4 -l -12 --favor-decSpeed ramdisk-recovery.cpio $GITHUB_WORKSPACE/artifact/ramdisk_recovery
+          else
+            cp -L vendor_ramdisk.cpio.lz4 $GITHUB_WORKSPACE/artifact/ramdisk_recovery
+          fi
+          ls -lh $GITHUB_WORKSPACE/artifact/ramdisk_recovery
       - uses: actions/upload-artifact@v4
         with:
           name: twrp_recovery_ramdisk_KN4
