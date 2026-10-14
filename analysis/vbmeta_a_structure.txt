@@ -1,0 +1,69 @@
+
+===== stock_vbmeta_a.img | libavb 1.0 | algo 1 | flags 0 | rollback_index 5 | rb_location 0 | release 'avbtool 1.3.0' | real size 10880 | pubkey sha256 ddb040718af937da..
+  CHAIN    boot           rollback_loc=3 pubkey_len=520 key_sha256=6edc6f15fc9351d5..
+  CHAIN    vbmeta_system  rollback_loc=2 pubkey_len=520 key_sha256=4c27533b73187951..
+  CHAIN    vbmeta_vendor  rollback_loc=4 pubkey_len=520 key_sha256=826a86066f8c287f..
+  PROP     com.android.build.dtbo.fingerprint = TECNO/KN4-OP/TECNO-KN4:15/AP3A.240905.015.A2/301400021:user/release-keys
+  PROP     com.android.build.init_boot.os_version = 15
+  PROP     com.android.build.init_boot.fingerprint = transsion/tssi/k69v1_64:15/AP3A.240905.015.A2/301400110:user/release-keys
+  PROP     com.android.build.init_boot.security_patch = 2026-05-05
+  PROP     com.android.build.odm.os_version = 15
+  PROP     com.android.build.odm.fingerprint = transsion/tssi/k69v1_64:15/AP3A.240905.015.A2/301400110:user/release-keys
+  PROP     com.android.build.odm_dlkm.os_version = 15
+  PROP     com.android.build.odm_dlkm.fingerprint = transsion/tssi/k69v1_64:15/AP3A.240905.015.A2/301400110:user/release-keys
+  PROP     com.android.build.product.os_version = 16
+  PROP     com.android.build.product.fingerprint = Transsion/tssi/mssi_64_64only_cn.slim:16/BP2A.250605.031.A3/301400110:user/relea
+  PROP     com.android.build.product.security_patch = 2026-08-01
+  PROP     com.android.build.system_dlkm.os_version = 15
+  PROP     com.android.build.system_dlkm.fingerprint = transsion/tssi/k69v1_64:15/AP3A.240905.015.A2/301400110:user/release-keys
+  PROP     com.android.build.system_ext.os_version = 16
+  PROP     com.android.build.system_ext.fingerprint = Transsion/tssi/mssi_64_64only_cn.slim:16/BP2A.250605.031.A3/301400110:user/relea
+  PROP     com.android.build.system_ext.security_patch = 2026-08-01
+  PROP     com.android.build.tr_carrier.fingerprint = Transsion/tssi/mssi_64_64only_cn.slim:16/BP2A.250605.031.A3/301400110:user/relea
+  PROP     com.android.build.tr_carrier.os_version = 16
+  PROP     com.android.build.tr_carrier.security_patch = 2026-08-01
+  PROP     com.android.build.tr_company.fingerprint = Transsion/tssi/mssi_64_64only_cn.slim:16/BP2A.250605.031.A3/301400110:user/relea
+  PROP     com.android.build.tr_company.os_version = 16
+  PROP     com.android.build.tr_company.security_patch = 2026-08-01
+  PROP     com.android.build.tr_overlayfs.fingerprint = Transsion/tssi/mssi_64_64only_cn.slim:16/BP2A.250605.031.A3/301400110:user/relea
+  PROP     com.android.build.tr_overlayfs.os_version = 16
+  PROP     com.android.build.tr_overlayfs.security_patch = 2026-08-01
+  PROP     com.android.build.tr_preload.fingerprint = Transsion/tssi/mssi_64_64only_cn.slim:16/BP2A.250605.031.A3/301400110:user/relea
+  PROP     com.android.build.tr_preload.os_version = 16
+  PROP     com.android.build.tr_preload.security_patch = 2026-08-01
+  PROP     com.android.build.tr_product.fingerprint = Transsion/tssi/mssi_64_64only_cn.slim:16/BP2A.250605.031.A3/301400110:user/relea
+  PROP     com.android.build.tr_product.os_version = 16
+  PROP     com.android.build.tr_product.security_patch = 2026-08-01
+  PROP     com.android.build.tr_region.fingerprint = Transsion/tssi/mssi_64_64only_cn.slim:16/BP2A.250605.031.A3/301400110:user/relea
+  PROP     com.android.build.tr_region.os_version = 16
+  PROP     com.android.build.tr_region.security_patch = 2026-08-01
+  PROP     com.android.build.vendor_boot.fingerprint = transsion/tssi/k69v1_64:15/AP3A.240905.015.A2/301400110:user/release-keys
+  PROP     com.android.build.vendor_dlkm.os_version = 15
+  PROP     com.android.build.vendor_dlkm.fingerprint = transsion/tssi/k69v1_64:15/AP3A.240905.015.A2/301400110:user/release-keys
+  HASH     dtbo           image_size=118672    sha256 flags=0 digest=7002733617756541..
+  HASH     init_boot      image_size=3121152   sha256 flags=0 digest=85e3d07ec1704d77..
+  HASH     vendor_boot    image_size=30560256  sha256 flags=0 digest=1f087a10a63a9ed7..
+  HASHTREE odm            image_size=775147520  sha256 flags=0
+  HASHTREE odm_dlkm       image_size=23003136   sha256 flags=0
+  HASHTREE product        image_size=273043456  sha256 flags=0
+  HASHTREE system_dlkm    image_size=7069696    sha256 flags=0
+  HASHTREE system_ext     image_size=1530580992 sha256 flags=0
+  HASHTREE tr_carrier     image_size=4096       sha256 flags=0
+  HASHTREE tr_company     image_size=4096       sha256 flags=0
+  HASHTREE tr_overlayfs   image_size=4096       sha256 flags=0
+  HASHTREE tr_preload     image_size=4096       sha256 flags=0
+  HASHTREE tr_product     image_size=1216192512 sha256 flags=0
+  HASHTREE tr_region      image_size=3556450304 sha256 flags=0
+  HASHTREE vendor_dlkm    image_size=12881920   sha256 flags=0
+
+===== stock_vbmeta_system_a.img | libavb 1.0 | algo 1 | flags 0 | rollback_index 5 | rb_location 0 | release 'avbtool 1.3.0' | real size 1728 | pubkey sha256 4c27533b73187951..
+  PROP     com.android.build.system.os_version = 16
+  PROP     com.android.build.system.fingerprint = Transsion/tssi/mssi_64_64only_cn.slim:16/BP2A.250605.031.A3/301400110:user/relea
+  PROP     com.android.build.system.security_patch = 2026-08-01
+  HASHTREE system         image_size=930492416  sha256 flags=0
+
+===== stock_vbmeta_vendor_a.img | libavb 1.0 | algo 1 | flags 0 | rollback_index 5 | rb_location 0 | release 'avbtool 1.3.0' | real size 1664 | pubkey sha256 826a86066f8c287f..
+  PROP     com.android.build.vendor.os_version = 15
+  PROP     com.android.build.vendor.fingerprint = transsion/tssi/k69v1_64:15/AP3A.240905.015.A2/301400110:user/release-keys
+  PROP     com.android.build.vendor.security_patch = 2026-08-01
+  HASHTREE vendor         image_size=300388352  sha256 flags=0

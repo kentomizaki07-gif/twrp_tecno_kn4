@@ -1,0 +1,3 @@
+ro.board.platform=mt6768
+ro.minui.pixel_format=BGRA_8888
+ro.recovery.ui.margin_height=67

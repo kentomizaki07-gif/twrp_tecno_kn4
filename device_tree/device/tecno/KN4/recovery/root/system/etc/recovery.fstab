@@ -1,0 +1,66 @@
+# TECNO KN4 recovery.fstab  -- derived from stock first_stage_ramdisk/fstab.mt6768
+# <mount point>   <fstype>   <device>                          [<device2>]   <flags>
+
+# --- logical (dynamic) partitions inside super, slot-selected. Live phone mounts all of these as erofs (dm-verity) ---
+/system_root      erofs   system        flags=display="System";logical;slotselect;first_stage_mount
+/system_root      ext4    system        flags=display="System";logical;slotselect;first_stage_mount
+/system_ext       erofs   system_ext    flags=display="System Ext";logical;slotselect;first_stage_mount
+/system_ext       ext4    system_ext    flags=display="System Ext";logical;slotselect;first_stage_mount
+/vendor           erofs   vendor        flags=display="Vendor";logical;slotselect;first_stage_mount
+/vendor           ext4    vendor        flags=display="Vendor";logical;slotselect;first_stage_mount
+/product          erofs   product       flags=display="Product";logical;slotselect;first_stage_mount
+/product          ext4    product       flags=display="Product";logical;slotselect;first_stage_mount
+/odm              erofs   odm           flags=display="ODM";logical;slotselect;first_stage_mount
+/odm              ext4    odm           flags=display="ODM";logical;slotselect;first_stage_mount
+/vendor_dlkm      erofs   vendor_dlkm   flags=display="Vendor DLKM";logical;slotselect;first_stage_mount
+/vendor_dlkm      ext4    vendor_dlkm   flags=display="Vendor DLKM";logical;slotselect;first_stage_mount
+
+# --- data / metadata (flags copied verbatim from stock: FBE v2 aes-256-xts + metadata keydirectory) ---
+/metadata         f2fs    /dev/block/by-name/metadata   flags=display="Metadata";backup=0
+/data             f2fs    /dev/block/by-name/userdata   flags=fileencryption=aes-256-xts:aes-256-cts:v2,keydirectory=/metadata/vold/metadata_encryption;display="Data";wipeingui;backup=0
+
+# --- boot-chain partitions (A/B slot-selected) ---
+/boot             emmc    /dev/block/by-name/boot          flags=display="Boot";backup=1;flashimg=1;slotselect
+/init_boot        emmc    /dev/block/by-name/init_boot     flags=display="Init Boot";backup=1;flashimg=1;slotselect
+/vendor_boot      emmc    /dev/block/by-name/vendor_boot   flags=display="Vendor Boot";backup=1;flashimg=1;slotselect
+/dtbo             emmc    /dev/block/by-name/dtbo          flags=display="DTBO";backup=1;flashimg=1;slotselect
+
+# --- MediaTek persistent/calibration partitions ---
+/persist          ext4    /dev/block/by-name/persist     flags=display="Persist";backup=1
+/nvdata           ext4    /dev/block/by-name/nvdata      flags=display="NVData";backup=1
+/nvcfg            ext4    /dev/block/by-name/nvcfg       flags=display="NVCfg";backup=1
+/protect_f        ext4    /dev/block/by-name/protect1    flags=display="Protect F";backup=1
+/protect_s        ext4    /dev/block/by-name/protect2    flags=display="Protect S";backup=1
+/nvram            emmc    /dev/block/by-name/nvram       flags=display="NVRAM";backup=1
+/proinfo          emmc    /dev/block/by-name/proinfo     flags=display="Proinfo";backup=1
+/seccfg           emmc    /dev/block/by-name/seccfg      flags=display="Seccfg";backup=1
+
+# --- external storage (flash is eMMC per Device Info HW: internal = mmcblk0, SD slot = MSDC1 = mmcblk1) ---
+# Stock fstab: sdcard1 -> /devices/platform/11240000.mmc*, usbotg -> /devices/platform/mt_usb*
+/external_sd      auto    /dev/block/mmcblk1p1  /dev/block/mmcblk1    flags=display="MicroSD";storage;wipeingui;removable
+/usb_otg          auto    /dev/block/sda1       /dev/block/sda        flags=display="USB-OTG";storage;wipeingui;removable
+# Verified on the phone: eMMC (mmcblk0, mmcblk0boot0/1 exist, mmc0 = internal, mmc1 = second host).
+
+# --- Additional stock DLKM & Transsion (tr_*) logical partitions ---
+/odm_dlkm         erofs   odm_dlkm      flags=display="ODM DLKM";logical;slotselect;first_stage_mount
+/odm_dlkm         ext4    odm_dlkm      flags=display="ODM DLKM";logical;slotselect;first_stage_mount
+/system_dlkm      erofs   system_dlkm   flags=display="System DLKM";logical;slotselect;first_stage_mount
+/system_dlkm      ext4    system_dlkm   flags=display="System DLKM";logical;slotselect;first_stage_mount
+/tr_region        erofs   tr_region     flags=display="TR Region";logical;slotselect;first_stage_mount
+/tr_region        ext4    tr_region     flags=display="TR Region";logical;slotselect;first_stage_mount
+/tr_company       erofs   tr_company    flags=display="TR Company";logical;slotselect;first_stage_mount
+/tr_company       ext4    tr_company    flags=display="TR Company";logical;slotselect;first_stage_mount
+/tr_carrier       erofs   tr_carrier    flags=display="TR Carrier";logical;slotselect;first_stage_mount
+/tr_carrier       ext4    tr_carrier    flags=display="TR Carrier";logical;slotselect;first_stage_mount
+/tr_product       erofs   tr_product    flags=display="TR Product";logical;slotselect;first_stage_mount
+/tr_product       ext4    tr_product    flags=display="TR Product";logical;slotselect;first_stage_mount
+/tr_preload       erofs   tr_preload    flags=display="TR Preload";logical;slotselect;first_stage_mount
+/tr_preload       ext4    tr_preload    flags=display="TR Preload";logical;slotselect;first_stage_mount
+/tr_overlayfs     erofs   tr_overlayfs  flags=display="TR OverlayFS";logical;slotselect;first_stage_mount
+/tr_overlayfs     ext4    tr_overlayfs  flags=display="TR OverlayFS";logical;slotselect;first_stage_mount
+/tr_misc          erofs   tr_misc       flags=display="TR Misc";logical;slotselect;first_stage_mount
+/tr_misc          ext4    tr_misc       flags=display="TR Misc";logical;slotselect;first_stage_mount
+/tr_manifest      erofs   tr_manifest   flags=display="TR Manifest";logical;slotselect;first_stage_mount
+/tr_manifest      ext4    tr_manifest   flags=display="TR Manifest";logical;slotselect;first_stage_mount
+/tranfs           ext4    /dev/block/by-name/tranfs     flags=display="Tranfs";backup=1
+/tkv              emmc    /dev/block/by-name/tkv        flags=display="TKV";backup=1

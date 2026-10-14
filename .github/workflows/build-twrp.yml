@@ -1,0 +1,40 @@
+name: Build TWRP for TECNO KN4
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free space and deps
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android /opt/hostedtoolcache/CodeQL /usr/local/share/boost /opt/pipx
+          docker rmi $(docker images -q) -f || true
+          sudo apt-get update
+          sudo apt-get install -y git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig python3 python-is-python3 python3-lz4 repo lz4 libncurses5-dev libncurses6 libssl-dev cpio
+      - name: Sync twrp-16.0
+        run: |
+          sudo mkdir -p /mnt/twrp && sudo chown -R $USER:$USER /mnt/twrp
+          ln -s /mnt/twrp ~/twrp && cd ~/twrp
+          repo init --depth=1 -u https://github.com/TWRP-Test/platform_manifest_twrp_aosp.git -b twrp-16.0
+          repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags --optimized-fetch --prune
+      - name: Build
+        run: |
+          mkdir -p ~/twrp/device/tecno
+          cp -a $GITHUB_WORKSPACE/device_tree/device/tecno/KN4 ~/twrp/device/tecno/KN4
+          cd ~/twrp && source build/envsetup.sh
+          export ALLOW_MISSING_DEPENDENCIES=true
+          lunch twrp_KN4-bp2a-eng
+          mka vendorbootimage -j$(nproc --all)
+      - name: Package ramdisk
+        run: |
+          cd ~/twrp/out/target/product/KN4
+          mkdir -p $GITHUB_WORKSPACE/artifact
+          python3 $GITHUB_WORKSPACE/tools/unpack_bootimg.py --boot_img vendor_boot.img --out twrp_unpacked
+          cp -L twrp_unpacked/vendor-ramdisk-by-name/ramdisk_recovery $GITHUB_WORKSPACE/artifact/ramdisk_recovery
+      - uses: actions/upload-artifact@v4
+        with:
+          name: twrp_recovery_ramdisk_KN4
+          path: artifact/ramdisk_recovery
